@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FiguraSp.SharedLibrary.Middleware;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +30,14 @@ namespace FiguraSp.SharedLibrary.DependencyInjection
             SharedPolicyService.AddSharedPolicy(services, config);
 
             return services;
+        }
+
+        public static IApplicationBuilder UseSharedGatewary(this IApplicationBuilder app)
+        {
+            //register middleware to block all outside API calls
+            app.UseMiddleware<SharedGateway>();
+
+            return app;
         }
     }
 }
